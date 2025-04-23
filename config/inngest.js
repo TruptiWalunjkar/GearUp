@@ -1,6 +1,9 @@
 import { Inngest } from "inngest";
 import connectDB from "./db";
 import User from "@/models/User";
+import dotenv from "dotenv";
+dotenv.config();
+
 
 // Create a client to send and receive events
 export const inngest = new Inngest({ id: "gearup-next" });
@@ -19,6 +22,7 @@ export const syncUserCreation = inngest.createFunction(
         name: first_name + ' ' + last_name,
         imageUrl: image_url
     }
+    console.log("🔍 MONGODB_URI in inngest.js:", process.env.MONGODB_URI)
     await connectDB()
     await User.create(userData)
   }
